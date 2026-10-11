@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app title="Qwen 32B Generator">
+    <container id="mainCard" class="card">
+        <heading level="2" text="✨ AI Code Gen 32B" />
+        
+        <badge id="limitBadge" class="limit-info" text="Загрузка лимитов..." />
+
+        <formGroup>
+            <label text="Название файла" />
+            <input type="text" id="fileName" placeholder="my-project" />
+        </formGroup>
+
+        <formGroup>
+            <label text="Язык программирования" />
+            <select id="langSelect">
+                <option value="python">Python (.py)</option>
+                <option value="javascript">JavaScript (.js)</option>
+                <option value="html">HTML (.html)</option>
+                <option value="css">CSS (.css)</option>
+                <option value="cpp">C++ (.cpp)</option>
+            </select>
+        </formGroup>
+
+        <formGroup>
+            <label text="Промт (задача)" />
+            <textarea id="promptInput" placeholder="Напиши парсер для сайта..." />
+        </formGroup>
+
+        <button id="generateBtn" class="primary-btn" text="🚀 Сгенерировать код" />
+        
+        <statusText id="statusMsg" />
+
+        <resultBox id="resultBox" visible="false">
+            <codeBlock id="codePreview" />
+            <button id="downloadBtn" class="success-btn" text="💾 Скачать файл" />
+        </resultBox>
+    </container>
+</app>
