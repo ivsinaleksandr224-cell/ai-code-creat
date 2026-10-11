@@ -1,3 +1,4 @@
+// 32B.js
 const API_URL = "https://api-inference.huggingface.co/models/Qwen/Qwen2.5-Coder-32B-Instruct";
 const DAILY_LIMIT = 10;
 
@@ -47,7 +48,11 @@ async function generateCode() {
     try {
         const messages = `<|im_start|>system\nТы эксперт по коду. Пиши ТОЛЬКО код на ${lang}. Без объяснений.<|im_end|>\n<|im_start|>user\n${prompt}<|im_end|>\n<|im_start|>assistant\n`;
 
-        const response = await fetch(API_URL, {
+        // --- ИСПРАВЛЕНИЕ ЗДЕСЬ ---
+        // Мы оборачиваем наш запрос к HF API в прокси AllOrigins
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(API_URL)}`;
+        
+        const response = await fetch(proxyUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -55,11 +60,12 @@ async function generateCode() {
                 parameters: { max_new_tokens: 1024, temperature: 0.2, return_full_text: false }
             })
         });
+        // -------------------------
 
         const data = await response.json();
 
         if (data.error) {
-            if (data.error.includes("loading")) throw new Error("⏳ Модель загружается. Подожди 30 сек и повтори!");
+            if (data.error.includes("loading")) throw new Error(" Модель загружается. Подожди 30 сек и повтори!");
             if (data.error.includes("rate")) throw new Error("🚫 Слишком много запросов. Подожди минуту.");
             throw new Error(data.error);
         }
